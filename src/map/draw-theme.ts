@@ -16,12 +16,14 @@ export default [
       ['==', '$type', 'Polygon'],
     ],
     'paint': {
-      'fill-color': [
-        'case',
-        ['==', ['get', 'active'], 'true'], orange,
-        blue,
-      ],
-      'fill-opacity': 0.1,
+      'fill-color': '#FFF',
+      'fill-opacity': 0.0,
+      // 'fill-color': [
+      //   'case',
+      //   ['==', ['get', 'active'], 'true'], orange,
+      //   blue,
+      // ],
+      // 'fill-opacity': 0.1,
     },
   },
   // Lines

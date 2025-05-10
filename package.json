@@ -12,6 +12,7 @@
   "dependencies": {
     "@mapbox/mapbox-gl-draw": "^1.5.0",
     "@turf/difference": "^7.2.0",
+    "@turf/helpers": "^7.2.0",
     "@turf/union": "^7.2.0",
     "@types/geojson": "^7946.0.16",
     "maplibre-gl": "^5.5.0",

@@ -1,4 +1,37 @@
-.App {
+/* Center .App in #root */
+#root {
   height: 100vh;
   width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Maintain 297:210 aspect ratio for .App */
+.page-frame {
+  position: relative;
+  /* 1) Lock in the A4-landscape ratio */
+  aspect-ratio: 297 / 210;
+
+  /* 2) Constrain it to the viewport size */
+  max-width: 100vw;
+  max-height: 100vh;
+
+  /* 3) Let the ratio engine decide which edge to use, then center */
+  width: auto;
+  height: auto;
+  margin: auto;
+
+  /* Optional styling to make it look like a sheet of paper */
+  background: white;
+  box-shadow: 0 0 0 1px #ccc;
+  display: block; /* ensure block‐level centering */
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.map-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
