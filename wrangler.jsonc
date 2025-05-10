@@ -1,0 +1,7 @@
+{
+  "name": "print-map",
+  "compatibility_date": "2025-05-10",
+  "assets": {
+    "directory": "./dist"
+  }
+}
