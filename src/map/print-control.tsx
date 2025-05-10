@@ -122,10 +122,10 @@ type PrintControlProps = /*ConstructorParameters<typeof IPrintControl>[0] &*/ {
 export default function PrintControl(props: PrintControlProps) {
   useControl(
     () => new IPrintControl(),
-    ({ map }) => {
+    () => {
       // No event listeners to add
     },
-    ({ map }) => {
+    () => {
       // No event listeners to remove
     },
     {

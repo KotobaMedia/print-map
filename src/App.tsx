@@ -1,5 +1,5 @@
 import './App.css';
-import MaplibreGL, { AttributionControl, Layer, NavigationControl, Source, type MapRef } from 'react-map-gl/maplibre';
+import MaplibreGL, { AttributionControl, Layer, NavigationControl, Source } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import DrawControl, { type DrawFeature } from './map/draw-control.tsx';
 import drawTheme from './map/draw-theme.ts';
@@ -42,6 +42,7 @@ function App() {
   useEffect(() => {
     try {
       localStorage.setItem('features', JSON.stringify(features));
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_e) {
       // ignore
     }
@@ -56,6 +57,7 @@ function App() {
         setFeatures(features);
         return Object.values(features);
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_e) {
       // ignore
     }
