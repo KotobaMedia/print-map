@@ -65,37 +65,51 @@ class IPrintControl implements IControl {
           font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
         }
         @page {
-          size: A4 landscape;
-          margin: 5mm;
+          size: landscape A4;
+          margin: 8mm;
         }
-        body {
+        html, body {
+          margin: 0; padding: 0;
+        }
+        .print-wrapper {
+          position: relative;
+          width: 100%; height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .print-wrapper img {
+          max-width: 100%;
+          max-height: 100%;
+          height: auto;
+          object-fit: contain;
+        }
+        #attribution {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          background: white;
           margin: 0;
-          padding: 0;
-        }
-        img {
-          display: block;
-          width: 100%;
-          height: 100%;
+          padding: 5px;
+          font-size: 10px;
+          color: black;
         }
       `;
       handle.document.head.appendChild(style);
+
+      const printWrapper = handle.document.createElement("div");
+      printWrapper.className = "print-wrapper";
 
       const img = handle.document.createElement("img");
       img.src = imageUrl;
 
       const attribution = handle.document.createElement("p");
       attribution.id = "attribution";
-      attribution.style.position = "absolute";
-      attribution.style.bottom = "0";
-      attribution.style.right = "0";
-      attribution.style.background = "white";
-      attribution.style.margin = "0";
-      attribution.style.padding = "5px";
-      attribution.style.fontSize = "10px";
       attribution.textContent = "https://print-map.kmproj.com | © OpenStreetMap";
 
-      handle.document.body.appendChild(img);
-      handle.document.body.appendChild(attribution);
+      printWrapper.appendChild(img);
+      printWrapper.appendChild(attribution);
+      handle.document.body.appendChild(printWrapper);
 
       img.onload = () => {
         handle.focus();

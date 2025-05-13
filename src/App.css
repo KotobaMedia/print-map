@@ -9,7 +9,6 @@
 
 /* Maintain 297:210 aspect ratio for .App */
 .page-frame {
-  position: relative;
   /* 1) Lock in the A4-landscape ratio */
   aspect-ratio: 297 / 210;
 
@@ -22,9 +21,6 @@
   height: auto;
   margin: auto;
 
-  /* Optional styling to make it look like a sheet of paper */
-  background: white;
-  box-shadow: 0 0 0 1px #ccc;
   display: block; /* ensure block‐level centering */
   position: absolute;
   top: 0; left: 0; bottom: 0; right: 0;
