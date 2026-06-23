@@ -16,8 +16,18 @@ const EMPTY_FC: FCP = turf.featureCollection([]);
 
 type FeatureState = Record<string, Feature<Polygon>>;
 
+function readStoredFeatures(): FeatureState {
+  try {
+    const initial = localStorage.getItem('features');
+    return initial ? JSON.parse(initial) as FeatureState : {};
+  } catch {
+    return {};
+  }
+}
+
 function App() {
-  const [features, setFeatures] = useState<FeatureState>({});
+  const [storedFeatures] = useState<FeatureState>(readStoredFeatures);
+  const [features, setFeatures] = useState<FeatureState>(storedFeatures);
 
   const onUpdate = useCallback<(evt: {features: DrawFeature[]}) => void>((e) => {
     setFeatures(currFeatures => {
@@ -48,20 +58,7 @@ function App() {
     }
   }, [features]);
 
-  const initialFeatures = useMemo(() => {
-    try {
-      const initial = localStorage.getItem('features');
-      if (initial) {
-        const features = JSON.parse(initial) as FeatureState;
-        // i know this should be in a useEffect, but i'm lazy
-        setFeatures(features);
-        return Object.values(features);
-      }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (_e) {
-      // ignore
-    }
-  }, []);
+  const initialFeatures = useMemo(() => Object.values(storedFeatures), [storedFeatures]);
 
   const maskPolygon = useMemo(() => {
     const fcp = turf.featureCollection(Object.values(features));
@@ -101,7 +98,7 @@ function App() {
               trash: true,
             }}
             styles={drawTheme}
-            initialFeatures={initialFeatures || []}
+            initialFeatures={initialFeatures}
             onCreate={onUpdate}
             onUpdate={onUpdate}
             onDelete={onDelete}

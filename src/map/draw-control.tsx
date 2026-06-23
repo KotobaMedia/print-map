@@ -1,6 +1,7 @@
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import type { Feature, Polygon } from 'geojson';
+import { useRef } from 'react';
 import {useControl} from 'react-map-gl/maplibre';
 import type {ControlPosition, IControl} from 'react-map-gl/maplibre';
 
@@ -26,32 +27,42 @@ type DrawControlProps = ConstructorParameters<typeof MapboxDraw>[0] & {
 };
 
 export default function DrawControl(props: DrawControlProps) {
-  const draw: MapboxDraw = useControl(
+  const drawRef = useRef<MapboxDraw | null>(null);
+
+  useControl(
     () => {
-      return new MapboxDraw(props) as unknown as IControl;
+      const draw = new MapboxDraw(props);
+      drawRef.current = draw;
+      return draw as unknown as IControl;
     },
     ({map}) => {
       if (props.onCreate) map.on('draw.create', props.onCreate);
       if (props.onUpdate) map.on('draw.update', props.onUpdate);
       if (props.onDelete) map.on('draw.delete', props.onDelete);
-      if (props.initialFeatures) {
-        map.once('load', () => {
-          draw.set({
+      if (props.initialFeatures?.length) {
+        const setInitialFeatures = () => {
+          drawRef.current?.set({
             type: 'FeatureCollection',
-            features: props.initialFeatures || [],
+            features: props.initialFeatures ?? [],
           });
-        });
+        };
+        if (map.loaded()) {
+          setInitialFeatures();
+        } else {
+          map.once('load', setInitialFeatures);
+        }
       }
     },
     ({map}) => {
       if (props.onCreate) map.off('draw.create', props.onCreate);
       if (props.onUpdate) map.off('draw.update', props.onUpdate);
       if (props.onDelete) map.off('draw.delete', props.onDelete);
+      drawRef.current = null;
     },
     {
       position: props.position
     }
-  ) as unknown as MapboxDraw;
+  );
 
   return null;
 }
